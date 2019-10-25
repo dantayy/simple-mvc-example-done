@@ -62,29 +62,29 @@ let DogModel = {};
 // default is the default value if one is not provided
 // match is the format to match done through regex
 const DogSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true,
-    },
+  name: {
+    type: String,
+    required: true,
+    trim: true,
+    unique: true,
+  },
 
-    breed: {
-        type: String,
-        required: true,
-        trim: true,
-    },
+  breed: {
+    type: String,
+    required: true,
+    trim: true,
+  },
 
-    age: {
-        type: Number,
-        min: 0,
-        required: true,
-    },
+  age: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
 
-    createdDate: {
-        type: Date,
-        default: Date.now,
-    },
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
 
 });
 
@@ -94,7 +94,7 @@ const DogSchema = new mongoose.Schema({
 // no instance of them. Every static function
 // only exists once and is called.
 DogSchema.statics.sayName = (dog) => {
-    console.log(dog.name);
+  console.log(dog.name);
 };
 
 // Schema.statics are static methods attached to the Model or objects
@@ -109,11 +109,20 @@ DogSchema.statics.sayName = (dog) => {
 // not a method that uses or returns instance variables
 // That is, these are used when you don't need an object, just a function to call.
 DogSchema.statics.findByName = (name, callback) => {
-    const search = {
-        name,
-    };
+  const search = {
+    name,
+  };
 
-    return DogModel.findOne(search, callback);
+  return DogModel.findOne(search, callback);
+};
+
+// static function for updating a dog's age
+DogSchema.statics.updateAge = (name, callback) => {
+  const search = {
+    name,
+  };
+
+  return DogModel.findOneAndUpdate(search, { $inc: { age: 1 } }, callback);
 };
 
 // Create the dog model based on the schema. You provide it with a custom discriminator
